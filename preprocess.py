@@ -4,9 +4,16 @@ from profiler import Profile
 import asyncio
 import datetime, dateutil
 import re
+import sys
 
-with Profile('Load file'):
-    df = pd.read_csv('data/train.csv')
+if len(sys.argv) < 3:
+    print('Error: Expected input and output file names')
+    print(f'Usage: {sys.argv[0]} <in.csv> <out.csv>')
+    exit(1)
+
+input_file = sys.argv[1]    
+with Profile(f'Loading {input_file}'):
+    df = pd.read_csv(input_file)
 
 # drop columns
 with Profile('Dropping columns'):
@@ -142,5 +149,6 @@ with Profile('comorbidities'):
 with Profile('medications'):
     asyncio.run(meds.parse_medications(df))
 
-with Profile('Write out.csv'):
-    df.to_csv('data/out.csv')
+output_file = sys.argv[1]    
+with Profile(f'Writing {output_file}'):
+    df.to_csv(output)
