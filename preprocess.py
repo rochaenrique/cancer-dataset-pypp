@@ -149,6 +149,6 @@ with Profile('comorbidities'):
 with Profile('medications'):
     asyncio.run(meds.parse_medications(df))
 
-output_file = sys.argv[1]    
+output_file = sys.argv[2] 
 with Profile(f'Writing {output_file}'):
     df.to_csv(output_file)

@@ -1,13 +1,13 @@
 import time
 
 class Profile:
-    _header = '--------------------------------------------------'
+    _header = '------------------------------------------------------------'
     def __init__(self, label):
         self._label = label
         
     def __enter__(self):
         print(self._header)
-        print(f'{repr(self._label):20}: ', end='')        
+        print(f'{repr(self._label):20}:', end=' ')        
         self._time = time.time()
         
     def __exit__(self, exc_type, exc_value, exc_traceback):
