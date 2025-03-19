@@ -1,6 +1,6 @@
 import pandas as pd
 import meds, util
-from profile import Profile
+from profiler import Profile
 import asyncio
 import datetime, dateutil
 import re
