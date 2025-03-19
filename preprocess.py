@@ -151,4 +151,4 @@ with Profile('medications'):
 
 output_file = sys.argv[1]    
 with Profile(f'Writing {output_file}'):
-    df.to_csv(output)
+    df.to_csv(output_file)
