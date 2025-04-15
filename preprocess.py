@@ -21,7 +21,6 @@ with Profile('Dropping columns'):
         'favorite_color',
         'hospital',
         'education',
-        'patient_id',
         'edad_paciente',
         'marital_status',
         'insurance_provider'
@@ -68,8 +67,23 @@ with Profile('employment'):
     df['employment'] = df['employment'].apply(lambda x: 1 if x == "Employed" or x == "Student" else 0)
 
 # date
+# cycling encoding to the month
+# just the value to the year
+# disregarding day and time
 with Profile('diagnosis_date_paciente'):
-    df['diagnosis_date_paciente'] = df['diagnosis_date_paciente'].apply(lambda x: dateutil.parser.parse(x).timestamp())
+    df['diagnosis_date_paciente_month_cycle_x'] = 0.0
+    df['diagnosis_date_paciente_month_cycle_y'] = 0.0
+    df['diagnosis_date_paciente_year'] = 0
+    
+    for index, row in df.iterrows():
+        date = dateutil.parser.parse(row['diagnosis_date_paciente'])
+        month_cycle = util.get_month_cycle(date)
+        
+        df.at[index, 'diagnosis_date_paciente_year'] = date.year
+        df.at[index, 'diagnosis_date_paciente_month_cycle_x'] = month_cycle[0]
+        df.at[index, 'diagnosis_date_paciente_month_cycle_y'] = month_cycle[1]
+
+    df.drop(columns=['diagnosis_date_paciente'], inplace=True)
 
 # cancer subtype
 with Profile('cancer_subtype'):

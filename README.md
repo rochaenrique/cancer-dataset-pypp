@@ -10,11 +10,12 @@ This projectis for the Machine Learning extra class in UPM. This repository cont
 
 ## Todo 
 Based on feedback: 
- [ ] *date_paciente*: Cycling encoding para el mes
- [ ] *date_paciente*: Reducir resolucion; Columnas para el dia, mes y ano talvez.
- [ ] *symptoms*, *comorbities*: Poner en minusculas 
+ [x] *date_paciente*: Cycling encoding para el mes
+ [x] *date_paciente*: Reducir resolucion; Columnas para el dia, mes y ano talvez.
+ [x] *symptoms*, *comorbities*: Poner en minusculas 
  [ ] *symptoms*: Multilabel encoding (sklearn: MultiLabelBinarizer)
  [ ] *comorbities*: Encode de alguna otra manera (talvez agrupar) 
+ [ ] limpiar codigo con column transformers / pipelines
  
 
 ## Feedback on first version

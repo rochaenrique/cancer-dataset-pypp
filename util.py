@@ -1,9 +1,10 @@
 import difflib
 from rapidfuzz import process, fuzz
 from collections.abc import Iterable
+from math import sin, cos, pi
 
 def clean_or_count(x, freq_map):
-    s = str(x)
+    s = str(x).lower()
     if similar(s, "None") > 0.7 or similar(s, "nan") > 0.7 or len(s) == 0:
         return 0
     
@@ -93,3 +94,6 @@ def lowhigh(x):
 def parse_lowhigh(df, gene):
     df[gene] = df[gene].apply(lowhigh)
 
+def get_month_cycle(date):
+    theta = pi * (date.month - 1) / 6
+    return (sin(theta), cos(theta))
