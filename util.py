@@ -113,7 +113,7 @@ def get_month_cycle(date):
 
 def multi_label_encode(df, col_name, *, cleanup_col_names = False):
     df[col_name] = df[col_name].map(lambda x: clean_or_count(x))
-    mlb = MultiLabelBinarizer().set_output(transform='pandas')
+    mlb = MultiLabelBinarizer()
     
     matrix = mlb.fit_transform(df[col_name])
 

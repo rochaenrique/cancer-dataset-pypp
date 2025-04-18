@@ -14,7 +14,7 @@ Based on feedback:
  [x] *date_paciente*: Reducir resolucion; Columnas para el dia, mes y ano talvez.
  [x] *symptoms*, *comorbities*: Poner en minusculas 
  [x] *comorbities*: Encode de alguna otra manera (talvez agrupar) 
- [ ] *medications*: Multilabel encoding (sklearn: MultiLabelBinarizer) 
+ [x] *medications*: Multilabel encoding (sklearn: MultiLabelBinarizer) 
  [ ] *blood_type*: adicionar blood type 0
  [ ] limpiar codigo con column transformers, pipelines, function transformers
  

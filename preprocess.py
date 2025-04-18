@@ -1,5 +1,5 @@
 import pandas as pd
-import meds, util
+import util
 from profiler import Profile
 import asyncio
 import datetime, dateutil
@@ -159,8 +159,10 @@ with Profile('Dropping columns'):
 # # medications
 # # text parse
 # # fetch rxcui
-# with Profile('medications'):
-#     asyncio.run(meds.parse_medications(df))
+with Profile('medications'):
+    df.info()
+    util.multi_label_encode(df, 'medications', cleanup_col_names=True)
+    df.info()
 
 # output_file = sys.argv[2] 
 # with Profile(f'Writing {output_file}'):
