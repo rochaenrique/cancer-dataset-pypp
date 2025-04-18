@@ -2,18 +2,22 @@ import difflib
 from rapidfuzz import process, fuzz
 from collections.abc import Iterable
 from math import sin, cos, pi
+from sklearn.preprocessing import MultiLabelBinarizer
+import pandas as pd
 
-def clean_or_count(x, freq_map):
+def clean_or_count(x, freq_map = None):
     s = str(x).lower()
     if similar(s, "None") > 0.7 or similar(s, "nan") > 0.7 or len(s) == 0:
         return 0
-    
-    items = s.split(",")
+
+    items = s.split(", ")
     for i in items:
-        if i in freq_map:
-            freq_map[i] += 1
-        else:
-            freq_map[i] = 0
+        i = i.strip()
+        if freq_map is not None:
+            if i in freq_map:
+                freq_map[i] += 1
+            else:
+                freq_map[i] = 0
     return items
 
 def get_freq_corrected_map(freq_map):
@@ -37,7 +41,9 @@ def sum_map_entries(key, val_map):
     return sum(val_map.get(el, 0) for el in key) if key != 0 else 0
 
 def get_unique_set(items):
-    return set(element for sublist in items if sublist != 0 for element in sublist)
+    return set(
+        element for sublist in items if sublist != 0 for element in sublist
+    )
 
 def value_counts(items, freq_map = None):
     if freq_map is None:
@@ -63,12 +69,13 @@ def freq_correct_col(df, col_name):
 def depth_summed_freq_encode(df, col_name):
     freq_map = depth_value_counts(df[col_name].array)
     total = sum(freq_map.values())
-    df[col_name] = df[col_name].apply(lambda x: sum_map_entries(x, freq_map) / total)
+    df[col_name] = df[col_name].apply(
+        lambda x: sum_map_entries(x, freq_map) / total)
 
 def roman2int(x: str) -> int:
     if x == "iv":
         return 4;
-    else: 
+    else:
         return x.count('i')
 
 def similar(a, b):
@@ -76,10 +83,10 @@ def similar(a, b):
 
 def parse_gene(df, gene):
     df[gene] = df[gene].apply(lambda x: 1 if x == "Mutated" else 0)
-    
+
 def parse_condition(df, gene):
         df[gene] = df[gene].apply(lambda x: 1 if x == "Positive" else 0)
-        
+
 def parse_elevated(df, gene):
         df[gene] = df[gene].apply(lambda x: 1 if x == "Elevated" else 0)
 
@@ -90,10 +97,25 @@ def lowhigh(x):
     elif s == "High":
         return 2
     return 0
-    
+
 def parse_lowhigh(df, gene):
     df[gene] = df[gene].apply(lowhigh)
 
 def get_month_cycle(date):
     theta = pi * (date.month - 1) / 6
     return (sin(theta), cos(theta))
+
+def multi_label_encode(df, col_name, *, append_col_name = False):
+    df[col_name] = df[col_name].map(lambda x: clean_or_count(x))
+    mlb = MultiLabelBinarizer()
+    matrix = mlb.fit_transform(df[col_name])
+
+    cols = []
+    if append_col_name:
+        for name in mlb.classes_:
+            cols.append(f'{col_name}_{name.replace(' ', '_')}')
+    else:
+        cols = mlb.classes_
+
+    mdf = pd.DataFrame(matrix, columns=cols, index=df.index)
+    df = pd.concat([df, mdf], axis=1)
