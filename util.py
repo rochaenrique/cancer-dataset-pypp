@@ -61,10 +61,16 @@ def depth_value_counts(items):
     return freq_map
 
 def freq_correct_col(df, col_name):
+    print('\n')
     freq_map = {}
     df[col_name] = df[col_name].map(lambda x: clean_or_count(x, freq_map))
-    corrected = get_freq_corrected_map(freq_map)
-    df[col_name] = df[col_name].map(lambda x: apply_most_freq(x, corrected))
+    for key, val in freq_map.items():
+        print(f'{key:20} -> {val:4}')
+
+    print(f'SIZE: {len(freq_map)}')
+        
+    # corrected = get_freq_corrected_map(freq_map)
+    # df[col_name] = df[col_name].map(lambda x: apply_most_freq(x, corrected))
 
 def depth_summed_freq_encode(df, col_name):
     freq_map = depth_value_counts(df[col_name].array)
@@ -105,17 +111,19 @@ def get_month_cycle(date):
     theta = pi * (date.month - 1) / 6
     return (sin(theta), cos(theta))
 
-def multi_label_encode(df, col_name, *, append_col_name = False):
+def multi_label_encode(df, col_name, *, cleanup_col_names = False):
     df[col_name] = df[col_name].map(lambda x: clean_or_count(x))
-    mlb = MultiLabelBinarizer()
+    mlb = MultiLabelBinarizer().set_output(transform='pandas')
+    
     matrix = mlb.fit_transform(df[col_name])
 
     cols = []
-    if append_col_name:
+    if cleanup_col_names:
         for name in mlb.classes_:
-            cols.append(f'{col_name}_{name.replace(' ', '_')}')
+            cols.append(f'{col_name}_{name.lower().replace(' ', '_')}')
     else:
         cols = mlb.classes_
 
     mdf = pd.DataFrame(matrix, columns=cols, index=df.index)
-    df = pd.concat([df, mdf], axis=1)
+    for col in mdf.columns:
+        df[col] = mdf[col]    

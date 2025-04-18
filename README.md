@@ -13,9 +13,10 @@ Based on feedback:
  [x] *date_paciente*: Cycling encoding para el mes
  [x] *date_paciente*: Reducir resolucion; Columnas para el dia, mes y ano talvez.
  [x] *symptoms*, *comorbities*: Poner en minusculas 
- [ ] *comorbities*: Encode de alguna otra manera (talvez agrupar) 
+ [x] *comorbities*: Encode de alguna otra manera (talvez agrupar) 
  [ ] *medications*: Multilabel encoding (sklearn: MultiLabelBinarizer) 
- [ ] limpiar codigo con column transformers / pipelines
+ [ ] *blood_type*: adicionar blood type 0
+ [ ] limpiar codigo con column transformers, pipelines, function transformers
  
 
 ## Feedback on first version

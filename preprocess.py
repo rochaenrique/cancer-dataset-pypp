@@ -140,21 +140,21 @@ with Profile('Dropping columns'):
 # text parsing
 # freq encoding
 # with Profile('symptoms'):
-#     util.multi_label_encode(df, 'symptoms', append_col_name=True)
+#     util.multi_label_encode(df, 'symptoms', cleanup_col_names=True)
+#     df.drop(columns = ['symptoms'], inplace=True)
     
 # # comorbidities
 # # text parsing
 # # one-hot encoding if not too many
-with Profile('comorbidities'):
-    def clean_str_list(x, regex):
-        if x == 0: 
-            return x
-        return regex.sub(r'', str(x)).replace('|', ',')
+# with Profile('comorbidities'):
+#     def clean_str_list(x, regex):
+#         if x == 0: 
+#             return x
+#         return regex.sub(r'', str(x)).replace('|', ',')
+#     regex = re.compile(r'[\[\'"\]\\]')
     
-    regex = re.compile(r'[\[\'"\]\\]')
-    df['comorbidities'] = df['comorbidities'].apply(lambda x: clean_str_list(x, regex))
-    util.freq_correct_col(df, 'comorbidities')
-    util.depth_summed_freq_encode(df, 'comorbidities')
+#     df['comorbidities'] = df['comorbidities'].apply(lambda x: clean_str_list(x, regex))
+#     util.multi_label_encode(df, 'comorbidities', cleanup_col_names=True)
     
 # # medications
 # # text parse
