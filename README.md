@@ -15,7 +15,6 @@ Based on feedback:
  [x] *symptoms*, *comorbities*: Poner en minusculas 
  [x] *comorbities*: Encode de alguna otra manera (talvez agrupar) 
  [x] *medications*: Multilabel encoding (sklearn: MultiLabelBinarizer) 
- [ ] *blood_type*: adicionar blood type 0
  [ ] limpiar codigo con column transformers, pipelines, function transformers
  
 
@@ -34,11 +33,9 @@ Para el blood_type te recomiendo codificar también el tipo de sangre 0. Sé que
 
 Como habrás visto en el nuevo kaggle, no codifiques el subtipo de esa manera, ya que vas a tener que predecir el subtipo concreto.
 
-
 Dicho todo esto, te recomiendo practicar con sklearn, tiene elementos muy útiles para trabajar con los datos y no lo aprovechas. Recuerda set_output(transform='pandas') para poder trabajar con pandas (sino te lo cambiaría a matrices de numpy). Te comento que utilizando sklearn puedes ponerlo todo en un objeto Pipeline que representa un modelo entero, y no tienes que estar llamando funciones para preprocesar y predecir. Para preprocesar podrías utilizar el ColumnTransformer que te permite realizar operaciones en columnas específicas y para adaptar tus códigos a este formato fácilmente el FunctionTransformer. Mencionado todo esto, no es necesario aplicarlo, se sale del ámbito de este curso aplicar todo esto, pero te doy la idea por si quieres profundizar más.
 
 En general, te felicito por el buen trabajo, cuesta creerse que seas de primero ;)
-
 
 Criterios de corrección:
 

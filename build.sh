@@ -20,8 +20,8 @@ do
 	case $i in
 		"prep")
 			echo preping!
-			python3 preprocess.py data/train.csv clean/train_clean.csv
-			python3 preprocess.py data/test.csv  clean/test_clean.csv
+			python3 preprocess.py train data/train.csv clean/train_clean.csv
+			python3 preprocess.py test  data/test.csv  clean/test_clean.csv
 			;;
 		"train")
 			echo training!
