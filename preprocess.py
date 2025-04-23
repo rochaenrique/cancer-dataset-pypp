@@ -3,6 +3,7 @@ import util
 from profiler import Profile
 import asyncio
 import datetime, dateutil
+from sklearn import set_config
 import re
 import sys
 
@@ -18,6 +19,8 @@ is_train    = sys.argv[1] == 'train'
 input_file  = sys.argv[2]
 output_file = sys.argv[3]
 
+set_config(transform_output="pandas")
+
 with Profile(f'Loading {input_file}'):
     df = pd.read_csv(input_file)
 
@@ -32,13 +35,12 @@ with Profile('Dropping columns'):
         'insurance_provider'
     ])
 
-if is_train: 
+if False: 
     # cancer stage
     with Profile('cancer_stage'):
         def parse_cancer_stage(x):
             s = str(x)
             return util.roman2int(s[6:]) if len(s) > 6 else 0
-      
         df['cancer_stage'] = df['cancer_stage'].apply(parse_cancer_stage)
     
     # cancer subtype
@@ -46,8 +48,8 @@ if is_train:
         cancer_subtype_count = df['cancer_subtype'].value_counts()
         df['cancer_subtype'] = df['cancer_subtype'].map(cancer_subtype_count/ sum(cancer_subtype_count))
     
-    # diagnosis
-    # TODO: If the diagnosis type matters change to one-hot encoding
+    # # diagnosis
+    # # TODO: If the diagnosis type matters change to one-hot encoding
     # df = pd.get_dummies(df, columns=['diagnosis'], dtype=int)
     with Profile('diagnosis'):
         df['has_cancer'] = df['diagnosis'].apply(lambda x: 0 if x == "No Cancer" else 1)
@@ -166,7 +168,6 @@ with Profile('comorbidities'):
   
 # medications
 # text parse
-# fetch rxcui
 with Profile('medications'):
     util.multi_label_encode(df, 'medications', cleanup_col_names=True)
     df.drop(columns = ['medications'], inplace=True)
