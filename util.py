@@ -63,9 +63,6 @@ def depth_value_counts(items):
 def freq_correct_col(df, col_name):
     freq_map = {}
     df[col_name] = df[col_name].map(lambda x: clean_or_count(x, freq_map))
-    for key, val in freq_map.items():
-        print(f'{key:20} -> {val:4}')
-
     corrected = get_freq_corrected_map(freq_map)
     df[col_name] = df[col_name].map(lambda x: apply_most_freq(x, corrected))
 

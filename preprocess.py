@@ -26,23 +26,16 @@ with Profile(f'Loading {input_file}'):
 
 # drop columns
 with Profile('Dropping columns'):
-    df = df.drop(columns=[
+    df.drop(columns=[
         'favorite_color',
         'hospital',
         'education',
         'edad_paciente',
         'marital_status',
-        'insurance_provider'
-    ])
-
-if False: 
-    # cancer stage
-    with Profile('cancer_stage'):
-        def parse_cancer_stage(x):
-            s = str(x)
-            return util.roman2int(s[6:]) if len(s) > 6 else 0
-        df['cancer_stage'] = df['cancer_stage'].apply(parse_cancer_stage)
-    
+        'insurance_provider',
+    ], inplace=True)
+   
+if False:
     # cancer subtype
     with Profile('cancer_subtype'):
         cancer_subtype_count = df['cancer_subtype'].value_counts()
@@ -62,23 +55,23 @@ with Profile('sexo_paciente'):
 
 # genes
 with Profile('Genes'):
-    util.parse_gene(df, 'KRAS')
-    util.parse_gene(df, 'BRAF')
-    util.parse_gene(df, 'HER2')
-    util.parse_gene(df, 'AR')
-    util.parse_gene(df, 'C-KIT')
-  
-    # pos negative
-    util.parse_condition(df, 'ER')
-    util.parse_condition(df, 'PR')
-    util.parse_condition(df, 'ALK')
-    util.parse_condition(df, 'EGFR')
-    util.parse_elevated(df, 'PSA')
-  
-    # low high
-    util.parse_lowhigh(df, 'MSI')
-    util.parse_lowhigh(df, 'PD-L1')
+    df.drop(columns=['PSA'], inplace=True)    
+    print(df['KRAS'].value_counts())
+    print(df['KRAS'].value_counts())
+    print(df['KRAS'].value_counts()) 
+    print(df['BRAF'].value_counts()) 
+    print(df['MSI'].value_counts())  
+    print(df['ER'].value_counts())   
+    print(df['PR'].value_counts())   
+    print(df['HER2'].value_counts()) 
+    print(df['EGFR'].value_counts()) 
+    print(df['ALK'].value_counts())  
+    print(df['PD-L1'].value_counts())
+    print(df['AR'].value_counts())
+    print(df['C-KIT'].value_counts())
 
+    df.info()
+    
 # hospital code
 with Profile('hospital_code'):
     df['hospital_code'] = df['hospital_code'].apply(lambda x: int(str(x)[4:]))
