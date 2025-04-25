@@ -52,25 +52,6 @@ if False:
 with Profile('sexo_paciente'):
     df['sexo_paciente'].value_counts()
     df['sexo_paciente'] = df['sexo_paciente'].apply(lambda x: 0 if str(x)[0] == 'F' else 1)
-
-# genes
-with Profile('Genes'):
-    df.drop(columns=['PSA'], inplace=True)    
-    print(df['KRAS'].value_counts())
-    print(df['KRAS'].value_counts())
-    print(df['KRAS'].value_counts()) 
-    print(df['BRAF'].value_counts()) 
-    print(df['MSI'].value_counts())  
-    print(df['ER'].value_counts())   
-    print(df['PR'].value_counts())   
-    print(df['HER2'].value_counts()) 
-    print(df['EGFR'].value_counts()) 
-    print(df['ALK'].value_counts())  
-    print(df['PD-L1'].value_counts())
-    print(df['AR'].value_counts())
-    print(df['C-KIT'].value_counts())
-
-    df.info()
     
 # hospital code
 with Profile('hospital_code'):
