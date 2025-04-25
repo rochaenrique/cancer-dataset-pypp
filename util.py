@@ -114,7 +114,8 @@ def multi_label_encode(df, col_name, *, cleanup_col_names = False):
     cols = []
     if cleanup_col_names:
         for name in mlb.classes_:
-            cols.append(f'{col_name}_{name.lower().replace(' ', '_')}')
+            fmt = name.lower().replace(' ', '_')
+            cols.append(f'{col_name}_{fmt}')
     else:
         cols = mlb.classes_
 
